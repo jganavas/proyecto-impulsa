@@ -6,6 +6,8 @@ use App\Repository\ClienteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ClienteRepository::class)]
 class Cliente
@@ -13,24 +15,39 @@ class Cliente
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['cliente:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['cliente:read'])]
+    #[Assert\NotBlank(message: 'El DNI o CIF es obligatorio.')]
     private ?string $dni_cif = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['cliente:read'])]
+    #[Assert\NotBlank(message: 'El nombre no puede estar vacío.')]
+    #[Assert\Length(min: 3, minMessage: 'El nombre debe tener al menos 3 caracteres.')]
     private ?string $nombre_completo = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['cliente:read'])]
+    #[Assert\NotBlank(message: 'El email es obligatorio.')]
+    #[Assert\Email(message: 'El email proporcionado no es válido.')]
     private ?string $email_contacto = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['cliente:read'])]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{9}$/',
+        message: 'El teléfono debe contener exactamente 9 dígitos numéricos.'
+    )]
     private ?string $telefono_contacto = null;
 
     /**
      * @var Collection<int, Contrato>
      */
     #[ORM\OneToMany(targetEntity: Contrato::class, mappedBy: 'cliente')]
+    #[Groups(['cliente:read'])]
     private Collection $contratos;
 
     public function __construct()

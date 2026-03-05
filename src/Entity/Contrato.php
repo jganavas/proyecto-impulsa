@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ContratoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ContratoRepository::class)]
 class Contrato
@@ -12,12 +13,15 @@ class Contrato
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['cliente:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['cliente:read'])]
     private ?string $estado = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['cliente:read'])]
     private ?\DateTime $fecha_alta = null;
 
     #[ORM\ManyToOne(inversedBy: 'contratos')]
