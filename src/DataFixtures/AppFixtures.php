@@ -50,6 +50,8 @@ class AppFixtures extends Fixture
             $cliente->setNombreCompleto($datos[1]);
             $cliente->setEmailContacto($datos[2]);
             $cliente->setTelefonoContacto($datos[3]);
+
+            $cliente->setUsuario($user);
             
             // Le decimos a Doctrine que prepare este cliente para guardarlo
             $manager->persist($cliente);

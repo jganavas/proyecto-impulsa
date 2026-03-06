@@ -29,13 +29,12 @@ class Cliente
     #[Assert\Length(min: 3, minMessage: 'El nombre debe tener al menos 3 caracteres.')]
     private ?string $nombre_completo = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['cliente:read'])]
-    #[Assert\NotBlank(message: 'El email es obligatorio.')]
     #[Assert\Email(message: 'El email proporcionado no es válido.')]
     private ?string $email_contacto = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['cliente:read'])]
     #[Assert\Regex(
         pattern: '/^[0-9]{9}$/',
@@ -49,6 +48,11 @@ class Cliente
     #[ORM\OneToMany(targetEntity: Contrato::class, mappedBy: 'cliente')]
     #[Groups(['cliente:read'])]
     private Collection $contratos;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'clientes')]
+    #[ORM\JoinColumn(nullable: false)] 
+    #[Groups(['cliente:read'])]
+    private ?User $usuario = null;
 
     public function __construct()
     {
@@ -134,6 +138,18 @@ class Cliente
                 $contrato->setCliente(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsuario(): ?User
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?User $usuario): static
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }

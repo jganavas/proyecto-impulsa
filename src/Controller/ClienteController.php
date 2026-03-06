@@ -19,7 +19,7 @@ final class ClienteController extends AbstractController
     #[Route('', name: 'api_cliente_index', methods: ['GET'])]
     public function index(ClienteRepository $clienteRepository): JsonResponse
     {
-        $clientes = $clienteRepository->findAll();
+        $clientes = $clienteRepository->findBy(['usuario' => $this->getUser()]);
         
         // Usamos 'groups' para evitar bucles infinitos al convertir a JSON
         return $this->json($clientes, 200, [], ['groups' => ['cliente:read']]);
@@ -29,6 +29,10 @@ final class ClienteController extends AbstractController
     #[Route('/{id}', name: 'api_cliente_show', methods: ['GET'])]
     public function show(Cliente $cliente): JsonResponse
     {
+        if ($cliente->getUsuario() !== $this->getUser()) {
+            return $this->json(['error' => 'No tienes permiso para acceder a este cliente'], Response::HTTP_FORBIDDEN);
+        }
+        
         return $this->json($cliente, 200, [], ['groups' => ['cliente:read']]);
     }
 
@@ -45,6 +49,8 @@ final class ClienteController extends AbstractController
         $cliente->setNombreCompleto($data['nombre_completo'] ?? '');
         $cliente->setEmailContacto($data['email_contacto'] ?? null); // Opcional
         $cliente->setTelefonoContacto($data['telefono_contacto'] ?? null); // Opcional
+
+        $cliente->setUsuario($this->getUser());
 
         $errores = $validator->validate($cliente);
 
@@ -71,6 +77,10 @@ final class ClienteController extends AbstractController
     #[Route('/{id}', name: 'api_cliente_update', methods: ['PUT', 'PATCH'])]
     public function update(Request $request, Cliente $cliente, EntityManagerInterface $em, ValidatorInterface $validator): JsonResponse
     {
+        if ($cliente->getUsuario() !== $this->getUser()) {
+            return $this->json(['error' => 'No tienes permiso para acceder a este cliente'], Response::HTTP_FORBIDDEN);
+        }
+
         $data = json_decode($request->getContent(), true);
 
         // Actualizamos solo los campos que nos envíen
@@ -91,7 +101,7 @@ final class ClienteController extends AbstractController
             foreach ($errores as $error) {
                 $mensajesError[] = $error->getMessage();
             }
-            //el Bad_request es como si dijera se quien eres pero no tienes permiso para hacer eso
+            
             return $this->json(['errores' => $mensajesError], Response::HTTP_BAD_REQUEST);
         }
         
@@ -104,6 +114,10 @@ final class ClienteController extends AbstractController
     #[Route('/{id}', name: 'api_cliente_delete', methods: ['DELETE'])]
     public function delete(Cliente $cliente, EntityManagerInterface $em): JsonResponse
     {
+        if ($cliente->getUsuario() !== $this->getUser()) {
+            return $this->json(['error' => 'No tienes permiso para acceder a este cliente'], Response::HTTP_FORBIDDEN);
+        }
+
         $em->remove($cliente);
         $em->flush();
 
