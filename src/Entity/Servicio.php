@@ -6,6 +6,8 @@ use App\Repository\ServicioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: ServicioRepository::class)]
 class Servicio
@@ -13,25 +15,36 @@ class Servicio
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['servicio:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['servicio:read'])]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['servicio:read'])]
     private ?string $tipo = null;
 
     #[ORM\Column]
+    #[Groups(['servicio:read'])]
     private ?float $precio_mensual = null;
 
     #[ORM\Column]
+    #[Groups(['servicio:read'])]
     private ?bool $activa = null;
 
     /**
      * @var Collection<int, Contrato>
      */
     #[ORM\OneToMany(targetEntity: Contrato::class, mappedBy: 'servicio')]
+    #[Groups(['servicio:read'])]
     private Collection $contratos;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['servicio:read'])]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -87,6 +100,18 @@ class Servicio
     public function setActiva(bool $activa): static
     {
         $this->activa = $activa;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

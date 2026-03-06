@@ -91,6 +91,7 @@ final class ClienteController extends AbstractController
             foreach ($errores as $error) {
                 $mensajesError[] = $error->getMessage();
             }
+            //el Bad_request es como si dijera se quien eres pero no tienes permiso para hacer eso
             return $this->json(['errores' => $mensajesError], Response::HTTP_BAD_REQUEST);
         }
         
