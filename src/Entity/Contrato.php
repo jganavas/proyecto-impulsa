@@ -13,21 +13,23 @@ class Contrato
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['cliente:read'])]
+    #[Groups(['cliente:read', 'contrato:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['cliente:read'])]
+    #[Groups(['cliente:read', 'contrato:read'])]
     private ?string $estado = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['cliente:read'])]
+    #[Groups(['cliente:read', 'contrato:read'])]
     private ?\DateTime $fecha_alta = null;
 
     #[ORM\ManyToOne(inversedBy: 'contratos')]
+    #[Groups(['contrato:read'])]
     private ?Cliente $cliente = null;
 
     #[ORM\ManyToOne(inversedBy: 'contratos')]
+    #[Groups(['contrato:read'])]
     private ?Servicio $servicio = null;
 
     public function getId(): ?int
