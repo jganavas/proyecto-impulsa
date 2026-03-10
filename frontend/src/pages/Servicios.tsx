@@ -34,9 +34,10 @@ const Servicios = () => {
 
   //Estilo loading
   if (loading) return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-    </div>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mb-4"></div>
+                <p className="text-gray-500 animate-pulse">Cargando servicios...</p>
+            </div>
   );
  
  // console.log("Primer servicio recibido:", servicios[0]);
