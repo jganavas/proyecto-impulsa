@@ -106,6 +106,10 @@ final class ClienteController extends AbstractController
             
             return $this->json(['errores' => $mensajesError], Response::HTTP_BAD_REQUEST);
         }
+
+        if (!$cliente->getUsuario()) {
+            $cliente->setUsuario($this->getUser());
+        }
         
         $em->flush();
 

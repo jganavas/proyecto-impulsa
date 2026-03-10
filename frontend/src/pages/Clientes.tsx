@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '../axios'; // Tu instancia de Axios configurada
+import api from '../axios'; 
 import { Link } from 'react-router-dom';
 
 // Definimos la estructura de los datos para TypeScript
@@ -41,11 +41,14 @@ const Clientes = () => {
     fetchClientes();
   }, []);
 
-  if (loading) return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-    </div>
-  );
+  if (loading) {
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mb-4"></div>
+                <p className="text-gray-500 animate-pulse">Cargando clientes...</p>
+            </div>
+        );
+    }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 font-sans">
@@ -115,9 +118,12 @@ const Clientes = () => {
                       </div>
                     </td>
                     <td className="px-6 py-5 text-right">
-                      <button className="text-gray-400 hover:text-blue-600 font-medium text-sm transition-colors">
-                        Editar
-                      </button>
+                      <Link 
+                          to={`/editar-cliente/${cliente.id}`}
+                          className="text-gray-400 hover:text-blue-600 font-medium text-sm transition-colors"
+                          >
+                           Editar 
+                      </Link>
                     </td>
                   </tr>
                 ))

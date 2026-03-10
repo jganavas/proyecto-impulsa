@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
         const response = await api.post('/login', { 
-            username: email, // <--- Enviamos el valor de 'email' pero con la etiqueta 'username'
+            username: email, 
             password: password 
         });
 
