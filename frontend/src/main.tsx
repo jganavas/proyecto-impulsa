@@ -24,7 +24,11 @@ const router = createBrowserRouter([
     element: <Clientes />,
   },
   { path: "/nuevo-cliente",
-    element: <ProtectedRoute><NuevoCliente /></ProtectedRoute> },
+    element: <ProtectedRoute><NuevoCliente /></ProtectedRoute> 
+  },
+  { path: "/editar-cliente/:id",
+    element: <ProtectedRoute><EditarCliente /></ProtectedRoute> 
+  },
   { path:"/servicios",
     element: <ProtectedRoute><Servicios /></ProtectedRoute>,
   }
