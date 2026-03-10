@@ -8,6 +8,7 @@ import Login from './pages/Login.tsx';
 import NuevoCliente from './pages/NuevoCliente.tsx';
 import EditarCliente from './pages/EditarCliente.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
+import Servicios from './pages/Servicios.tsx';
 
 const router = createBrowserRouter([
   {
@@ -24,10 +25,9 @@ const router = createBrowserRouter([
   },
   { path: "/nuevo-cliente",
     element: <ProtectedRoute><NuevoCliente /></ProtectedRoute> },
-  {
-    path: "/editar-cliente/:id",
-    element: <ProtectedRoute><EditarCliente /></ProtectedRoute>
-  },  
+  { path:"/servicios",
+    element: <ProtectedRoute><Servicios /></ProtectedRoute>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
