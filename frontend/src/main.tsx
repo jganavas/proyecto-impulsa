@@ -9,6 +9,8 @@ import NuevoCliente from './pages/NuevoCliente.tsx';
 import EditarCliente from './pages/EditarCliente.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import Servicios from './pages/Servicios.tsx';
+import NuevoServicio from './pages/NuevoServicio.tsx';
+
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,10 @@ const router = createBrowserRouter([
   },
   { path:"/servicios",
     element: <ProtectedRoute><Servicios /></ProtectedRoute>,
-  }
+  },
+   { path: "/nuevo-servicio",
+    element: <ProtectedRoute><NuevoServicio /></ProtectedRoute> 
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

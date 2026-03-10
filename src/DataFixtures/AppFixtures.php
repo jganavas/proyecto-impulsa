@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use App\Entity\Cliente;
 use App\Entity\Servicio;
+use App\Entity\Contrato;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 // Importamos la interfaz para encriptar contraseñas
@@ -65,6 +66,7 @@ class AppFixtures extends Fixture
 
             $manager->persist($user);
 
+            $clientesDelUsuario = [];
             //Dos clientes por usuario
             for ($i = 0; $i < 2; $i++) {
                 $datos = $clientesDePrueba[$clienteIndex];
@@ -78,10 +80,12 @@ class AppFixtures extends Fixture
                 $cliente->setUsuario($user);
                 
                 $manager->persist($cliente);
+                $clientesDelUsuario[] = $cliente;
                 
                 $clienteIndex++;
             }
 
+            $servicioDelUsuario = null;
             // Si existe, se pone un servicio por usuario
             if (isset($serviciosDePrueba[$servicioIndex])) {
                 $datosServicio = $serviciosDePrueba[$servicioIndex];
@@ -94,8 +98,21 @@ class AppFixtures extends Fixture
                 $servicio->setUser($user); //asociamos el servicio al usuario
                 
                 $manager->persist($servicio);
+                $servicioDelUsuario = $servicio; // Guardamos para usarlo luego
                 
                 $servicioIndex++;
+            }
+
+            //creo contrato solo para estos dos user Y estos users tengan un servicio adjudicado
+            if (in_array($uData['email'], ['pepe@email.com', 'desi@email.com']) && $servicioDelUsuario) {
+                //Le asigno el contrato al primer cliente
+                $contrato = new Contrato();
+                $contrato->setEstado('Activo');
+                $contrato->setFechaAlta(new \DateTime());
+                $contrato->setCliente($clientesDelUsuario[0]);
+                $contrato->setServicio($servicioDelUsuario);
+                
+                $manager->persist($contrato);
             }
         }
         $manager->flush();
