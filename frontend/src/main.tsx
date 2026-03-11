@@ -10,6 +10,7 @@ import EditarCliente from './pages/EditarCliente.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import Servicios from './pages/Servicios.tsx';
 import NuevoServicio from './pages/NuevoServicio.tsx';
+import EditarServicio from './pages/EditarServicio.tsx';
 
 
 const router = createBrowserRouter([
@@ -36,6 +37,9 @@ const router = createBrowserRouter([
   },
    { path: "/nuevo-servicio",
     element: <ProtectedRoute><NuevoServicio /></ProtectedRoute> 
+  },
+  { path: "/editar-servicio/:id",
+    element: <ProtectedRoute><EditarServicio /></ProtectedRoute> 
   },
 ]);
 
