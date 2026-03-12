@@ -16,3 +16,36 @@ Para poder ver las entidades principales del proyecto haz click en el siguiente 
 
 ## Como acceder al sistema
 (Aqui ya ponemos las credenciales, comandos, dependencias y cosas shulas)
+
+## Tecnologías Utilizadas
+
+**Frontend (Interfaz de usuario):**
+- **React** con **TypeScript** (utilizando Vite como empaquetador).
+- **Tailwind CSS** para un diseño responsive.
+- **React Router DOM** para la navegación y enrutamiento entre las distintas vistas.
+- **Axios** para conectar y realizar las peticiones HTTP a la API.
+
+**Backend (Lógica de servidor y API):**
+- **PHP** robusto con el framework **Symfony**.
+- **Doctrine ORM** para la gestión orientada a objetos de la Base de Datos.
+- **LexikJWTAuthenticationBundle** para seguridad de la API mediante tokens JWT.
+- **Docker & Docker Compose** para levantar y virtualizar la base de datos de manera uniforme usando los contenedores.
+
+## Vistas y Rutas
+Una vez levantado el entorno de desarrollo y logueado, estas son las principales vistas que componen el proyecto:
+
+- **🔐 Autenticación**
+  - `/login`: Pantalla de inicio de sesión de usuario, requiriendo credenciales válidas y proporcionando un token JWT.
+  
+- **👥 Clientes**
+  - `/clientes`: Panel general (*mis clientes*) que lista la información de la cartera de clientes de un usuario y los servicios que han contratado.
+  - `/nuevo-cliente`: Formulario validado para registrar de alta a un nuevo cliente en la cuenta del user que está logueado.
+  - `/editar-cliente/:id`: Vista de actualización y eliminación de un cliente específico.
+
+- **📦 Servicios**
+  - `/servicios`: Catálogo personal con los servicios ofrecidos, con la información de precios y su estado activo/inactivo.
+  - `/nuevo-servicio`: Formulario para dar de alta un nuevo tipo de servicio.
+  - `/editar-servicio/:id`: Vista de actualización y eliminación de un servicio.
+
+
+(poner las credenciales y como levantar servidor etc para que se pueda acceder a las vistas)
