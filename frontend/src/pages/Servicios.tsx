@@ -106,9 +106,12 @@ const Servicios = () => {
                       </span>
                     </td>
                     <td className="px-6 py-5 text-right">
-                      <button className="text-gray-400 hover:text-blue-600 font-medium text-sm transition-colors">
-                        Editar
-                      </button>
+                      <Link 
+                          to={`/editar-servicio/${servicio.id}`}
+                          className="text-gray-400 hover:text-blue-600 font-medium text-sm transition-colors"
+                          >
+                           Editar 
+                      </Link>
                     </td>
                   </tr>
                 ))
