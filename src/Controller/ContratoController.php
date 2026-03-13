@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route("/api/contratos")]
@@ -30,8 +30,7 @@ class ContratoController extends AbstractController
             ->getResult();
 
         //devuelve un json con los servicios, mensaje 200 si todo OK, y en grupos para evitar bucles infinitos
-        //se incluye cliente y servicio porque sin ellos contrato no tendria lógica
-        return $this->json($contratos, 200, [], ["groups" => ["contrato:read", "cliente:read", "servicio:read"]]);
+        return $this->json($contratos, 200, [], ["groups" => ["contrato:read"]]);
     }
 
     //2.Lista contrato por id
@@ -50,7 +49,7 @@ class ContratoController extends AbstractController
            return $this->json(["message" => "Acceso denegado, este contrato no te pertenece"], Response::HTTP_FORBIDDEN);
        }
 
-       return $this->json($contrato, 200, [], ["groups" => ["contrato:read", "cliente:read", "servicio:read"]]);
+       return $this->json($contrato, 200, [], ["groups" => ["contrato:read"]]);
     }
 
     //3.Crear nuevo contrato
@@ -130,7 +129,7 @@ class ContratoController extends AbstractController
         $entityManager->persist($contrato);
         $entityManager->flush();
 
-        return $this->json($contrato, 201, [], ["groups" => ["contrato:read", "cliente:read", "servicio:read"]]);
+        return $this->json($contrato, 201, [], ["groups" => ["contrato:read"]]);
     }
     //4.Modificar contrato especifico
     #[Route("/{id}", name: "api_contrato_update", methods: ["PUT", "PATCH"])]
@@ -199,7 +198,7 @@ class ContratoController extends AbstractController
         }
         $entityManager->flush();
 
-        return $this->json($contrato, 200, [], ["groups" => ["contrato:read", "cliente:read", "servicio:read"]]);
+        return $this->json($contrato, 200, [], ["groups" => ["contrato:read"]]);
     }
 
     //5.Borrar contrato
